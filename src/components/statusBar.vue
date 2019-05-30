@@ -2,9 +2,9 @@
   <q-bar
     dense
     v-if="system.cpu.currentload && activeApp && network"
-    class="bg-black text-white system-stats"
+    class="bg-black text-white system-stats q-px-md"
   >
-    <div>
+    <div class="text-bold">
       {{ activeApp.name }}
     </div>
     <q-space></q-space>
@@ -52,7 +52,7 @@
     </div>
     <div class="text-white">
       <span class="label"><q-icon name="mdi-memory"></q-icon></span>
-      <span class="value q-mx-sm"
+      <span class="value q-ml-sm"
         >{{ (system.memory.used / 1000000000).toFixed(1) }}G /
         {{ (system.memory.total / 1000000000).toFixed(0) }}G</span
       >
