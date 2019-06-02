@@ -65,6 +65,7 @@
               />
             </q-card-section>
           </q-card>
+          <basic-controls></basic-controls>
         </div>
       </div>
     </div>
@@ -76,6 +77,7 @@
 import WindowSnapper from 'components/WindowSnapper'
 import ChromeWidget from 'components/chrome'
 import StatusBar from 'components/statusBar'
+import BasicControls from 'components/basicControls'
 import { dom } from 'quasar'
 const { width } = dom
 export default {
@@ -83,7 +85,8 @@ export default {
   components: {
     'window-snapper': WindowSnapper,
     'chrome-widget': ChromeWidget,
-    'status-bar': StatusBar
+    'status-bar': StatusBar,
+    'basic-controls': BasicControls
   },
   data () {
     const gp = this.$presets.getAppTouchbarTriggers()
@@ -135,11 +138,6 @@ export default {
       })
       this.ioReady = true
     }
-
-    this.$presets.getCurrentApp().then(r => {
-      this.currentApp = r.name
-      this.currentAppId = r.id
-    })
   },
   computed: {
     snapWidth () {

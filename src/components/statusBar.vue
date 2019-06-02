@@ -30,7 +30,7 @@
     </div>
     <div>
       <la-cartesian
-        :padding="[4, 0, 4, 0]"
+        :padding="[8, 0, 4, 0]"
         :width="40"
         :bound="[0, loadMax]"
         :height="24"
