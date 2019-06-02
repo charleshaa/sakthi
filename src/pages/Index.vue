@@ -5,6 +5,7 @@
       <div class="row q-col-gutter-md q-px-md q-py-md app-viewport">
         <div class="col-6 app-col scroll" v-if="activeApp">
           <chrome-widget
+            @openChromeTab="openChromePreview"
             v-if="activeApp.id === 'com.google.Chrome'"
           ></chrome-widget>
           <div v-if="customApps.indexOf(activeApp.id) < 0" class="app-triggers row q-col-gutter-md">
@@ -69,6 +70,32 @@
         </div>
       </div>
     </div>
+    <q-dialog
+      v-if="currentPreview"
+      v-model="chromePreviewOpen"
+      :maximized="fullPreview"
+      persistent
+      :position="fullPreview ? undefined : 'right'"
+    >
+      <q-card>
+        <q-bar class="bg-black text-white" >
+          <div class="text-weight-bold ellipsis">
+            {{currentPreview.title}}
+          </div>
+          <div class="text-weight-light text-grey-8 ellipsis">
+            {{currentPreview.url}}
+          </div>
+          <q-space />
+          <q-btn dense flat icon="crop_square" @click="fullPreview = !fullPreview">
+            <q-tooltip v-if="fullPreview" content-class="bg-white text-primary">Maximize</q-tooltip>
+          </q-btn>
+          <q-btn dense flat icon="close" v-close-popup>
+            <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
+          </q-btn>
+        </q-bar>
+        <iframe v-if="currentPreview" :src="currentPreview.url" frameborder="0" ref="currentPreview" class="preview-frame"></iframe>
+      </q-card>
+    </q-dialog>
   </q-page>
 </template>
 
@@ -104,7 +131,10 @@ export default {
       playingInterval: undefined,
       activeTab: undefined,
       activeApp: undefined,
-      music: undefined
+      music: undefined,
+      chromePreviewOpen: false,
+      currentPreview: undefined,
+      fullPreview: true
     }
   },
   watch: {
@@ -159,8 +189,13 @@ export default {
         this.volume = 10
         this.changeVolume(10)
       }
+    },
+    openChromePreview (tab) {
+      this.chromePreviewOpen = true
+      this.currentPreview = tab
     }
   }
+
 }
 </script>
 <style lang="stylus">
@@ -171,4 +206,8 @@ export default {
 .app-col
   height 100% !important
   overflow-y auto
+
+.preview-frame
+  height: $viewport-height
+  width: 100%
 </style>
